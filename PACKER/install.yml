@@ -1,0 +1,22 @@
+---
+hosts: all
+gather_facts: true
+become: true
+become_user: root
+become_method: sudo
+
+tasks:
+  - name: Install Hashicorp Repository
+    ansible.builtin.shell: |
+      curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+      sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+  - name: Install terraform and packer
+    ansible.builtin.apt:
+      - name:
+          - terraform
+          - packer
+        state: present
+  - name: install tfenv
+    ansible.builtin.shell: |
+      git clone https://github.com/tfutils/tfenv.git ~/.tfenv
+      echo 'export PATH="$HOME/.tfenv/bin:$PATH"' >> ~/.bash_profile
