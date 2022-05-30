@@ -20,3 +20,12 @@ tasks:
     ansible.builtin.shell: |
       git clone https://github.com/tfutils/tfenv.git ~/.tfenv
       echo 'export PATH="$HOME/.tfenv/bin:$PATH"' >> ~/.bash_profile
+  - name: install tfenv from git
+    ansible.builtin.git:
+      repo: https://github.com/tfutils/tfenv.git
+      clone: yes
+      dest: /tmp/tfenv
+      depth: 1
+      mode: 0755
+      owner: root
+      group: root
